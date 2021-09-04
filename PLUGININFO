@@ -1,0 +1,4 @@
+Version = "2021-08-04r00"
+Authors = ['z1ck']
+Name = "Leech Detector with Autoban"
+Description = "Detects when leechers are downloading, and sends them a message. After that the leecher is banned automatically"
