@@ -16,5 +16,6 @@ sudo apt-get install -y python3-notify2
 Copy into `~/.local/share/nicotine/plugins`
 and enable it in the settings.
 
-```git clone https://github.com/k3klein/leechdetector_autoban.git ~/.local/share/nicotine/plugins/leechdetectorautoban```
-
+```
+git clone https://github.com/z111ck/leechdetector_autoban.git ~/.local/share/nicotine/plugins/leechdetectorautoban
+```
