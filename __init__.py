@@ -21,13 +21,13 @@
 
 from pynicotine import slskmessages
 from pynicotine.pluginsystem import BasePlugin
-import notify2
+# import notify2
 
-def sendmessage(title, message):
-    notify2.init("Test")
-    notice = notify2.Notification(title, message)
-    notice.show()
-    return
+# def sendmessage(title, message):
+#     notify2.init("Test")
+#     notice = notify2.Notification(title, message)
+#     notice.show()
+#     return
 
 class Plugin(BasePlugin):
 
@@ -98,7 +98,16 @@ class Plugin(BasePlugin):
         if not self.settings['message']:
             self.log("User %s doesn't share enough files, but no complaint message is specified.", user)
 
-            sendmessage("LEECHER BANNED", "Someone tried leeching from you and got banned. Check your private messages!")
+            # sendmessage("LEECHER BANNED", "Someone tried leeching from you and got banned. Check your private messages!")
+            # Use built in notifications for better integrity.
+
+            self.core.notifications.new_text_notification(
+                ("User: %(user)s tried leeching from you and got autobanned!") % {
+                    'user': user
+                },
+                title=("Leecher banned!")
+            )
+
             self.log("Banning user: %s", user)
             self.core.transfers.ban_user(user)
             return
@@ -113,7 +122,16 @@ class Plugin(BasePlugin):
 
         self.log("User %s doesn't share enough files, sent complaint.", user)
 
-        sendmessage("LEECHER BANNED", "Someone tried leeching from you and got banned. Check your private messages!")
+        # sendmessage("LEECHER BANNED", "Someone tried leeching from you and got banned. Check your private messages!")
+        # Use built in notifications for better integrity.
+
+        self.core.notifications.new_text_notification(
+                ("User: %(user)s tried leeching from you and got autobanned!") % {
+                    'user': user
+                },
+                title=("Leecher banned!")
+            )
+
 
         self.log("Banning user: %s", user)
         self.core.transfers.ban_user(user)
