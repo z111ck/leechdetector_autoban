@@ -21,13 +21,6 @@
 
 from pynicotine import slskmessages
 from pynicotine.pluginsystem import BasePlugin
-# import notify2
-
-# def sendmessage(title, message):
-#     notify2.init("Test")
-#     notice = notify2.Notification(title, message)
-#     notice.show()
-#     return
 
 class Plugin(BasePlugin):
 
@@ -36,7 +29,8 @@ class Plugin(BasePlugin):
         'message': 'Please consider sharing more files before downloading from me. Thanks :)',
         'num_files': 1,
         'num_folders': 1,
-        'open_private_chat': True
+        'open_private_chat': True,
+        'enable_autoban': True
     }
     metasettings = {
         'message': {
@@ -51,6 +45,9 @@ class Plugin(BasePlugin):
             'type': 'int', 'minimum': 1},
         'open_private_chat': {
             'description': 'Open private chat tabs when sending messages to leechers',
+            'type': 'bool'},
+        'enable_autoban': {
+            'description': 'Enable Autoban',
             'type': 'bool'},
     }
 
@@ -98,18 +95,16 @@ class Plugin(BasePlugin):
         if not self.settings['message']:
             self.log("User %s doesn't share enough files, but no complaint message is specified.", user)
 
-            # sendmessage("LEECHER BANNED", "Someone tried leeching from you and got banned. Check your private messages!")
-            # Use built in notifications for better integrity.
-
-            self.core.notifications.new_text_notification(
-                ("User: %(user)s tried leeching from you and got autobanned!") % {
-                    'user': user
-                },
-                title=("Leecher banned!")
-            )
-
-            self.log("Banning user: %s", user)
-            self.core.transfers.ban_user(user)
+            # autoban the user if enabled in settings
+            if self.settings['enable_autoban']:
+                self.core.notifications.new_text_notification(
+                    ("User: %(user)s tried leeching from you and got autobanned!") % {
+                        'user': user
+                    },
+                    title=("Leecher banned!")
+                )
+                self.log("Banning user: %s", user)
+                self.core.transfers.ban_user(user)
             return
 
         show_ui = False
@@ -122,17 +117,13 @@ class Plugin(BasePlugin):
 
         self.log("User %s doesn't share enough files, sent complaint.", user)
 
-        # sendmessage("LEECHER BANNED", "Someone tried leeching from you and got banned. Check your private messages!")
-        # Use built in notifications for better integrity.
-
-        self.core.notifications.new_text_notification(
-                ("User: %(user)s tried leeching from you and got autobanned!") % {
-                    'user': user
-                },
-                title=("Leecher banned!")
-            )
-
-
-        self.log("Banning user: %s", user)
-        self.core.transfers.ban_user(user)
-
+        # autoban the user if enabled in settings
+        if self.settings['enable_autoban']:
+            self.core.notifications.new_text_notification(
+                    ("User: %(user)s tried leeching from you and got autobanned!") % {
+                        'user': user
+                    },
+                    title=("Leecher banned!")
+                )
+            self.log("Banning user: %s", user)
+            self.core.transfers.ban_user(user)

@@ -13,7 +13,7 @@ sudo apt-get update -y
 sudo apt-get install -y python3-notify2
 ```
 -->
-Nothing, just clone the repo.
+None, just clone the repo.
 
 ## Usage
 Copy into `~/.local/share/nicotine/plugins`
