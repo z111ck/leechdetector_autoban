@@ -98,10 +98,10 @@ class Plugin(BasePlugin):
             # autoban the user if enabled in settings
             if self.settings['enable_autoban']:
                 self.core.notifications.new_text_notification(
-                    ("User: %(user)s tried leeching from you and got autobanned!") % {
+                    ("User: %(user)s tried leeching from you and got autobanned.") % {
                         'user': user
                     },
-                    title=("Leecher banned!")
+                    title=("Leecher banned")
                 )
                 self.log("Banning user: %s", user)
                 self.core.transfers.ban_user(user)
@@ -120,10 +120,10 @@ class Plugin(BasePlugin):
         # autoban the user if enabled in settings
         if self.settings['enable_autoban']:
             self.core.notifications.new_text_notification(
-                    ("User: %(user)s tried leeching from you and got autobanned!") % {
+                    ("User: %(user)s tried leeching from you and got autobanned.") % {
                         'user': user
                     },
-                    title=("Leecher banned!")
+                    title=("Leecher banned")
                 )
             self.log("Banning user: %s", user)
             self.core.transfers.ban_user(user)
