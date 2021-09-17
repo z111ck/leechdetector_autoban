@@ -103,7 +103,7 @@ class Plugin(BasePlugin):
                     },
                     title=("Leecher banned")
                 )
-                self.log("Banning user: %s", user)
+                self.log("Banning user %s, only sharing %s files and %s folders.", (user, stats['files'], stats['dirs']))
                 self.core.transfers.ban_user(user)
             return
 
@@ -120,10 +120,12 @@ class Plugin(BasePlugin):
         # autoban the user if enabled in settings
         if self.settings['enable_autoban']:
             self.core.notifications.new_text_notification(
-                    ("User: %(user)s tried leeching from you and got autobanned.") % {
-                        'user': user
+                    ("User %(user)s tried leeching from you and got autobanned. Only shared %(files)s files and %(dirs)s folders.") % {
+                        'user': user,
+                        'files': stats['files'],
+                        'dirs': stats['dirs']
                     },
                     title=("Leecher banned")
                 )
-            self.log("Banning user: %s", user)
+            self.log("Banning user %s, only sharing %s files and %s folders.", (user, stats['files'], stats['dirs']))
             self.core.transfers.ban_user(user)
