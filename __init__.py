@@ -98,8 +98,10 @@ class Plugin(BasePlugin):
             # autoban the user if enabled in settings
             if self.settings['enable_autoban']:
                 self.core.notifications.new_text_notification(
-                    ("User: %(user)s tried leeching from you and got autobanned.") % {
-                        'user': user
+                    ("User: %(user)s tried leeching from you and got autobanned. Only shared %(files)s files and %(dirs)s folders.") % {
+                        'user': user,
+                        'files': stats['files'],
+                        'dirs': stats['dirs']
                     },
                     title=("Leecher banned")
                 )
@@ -113,14 +115,14 @@ class Plugin(BasePlugin):
             show_ui = True
 
         for line in self.settings['message'].splitlines():
-            self.send_private(user, line, show_ui=show_ui, switch_page=False)
+            self.send_private(user, "[Automatic Message] " + line, show_ui=show_ui, switch_page=False)
 
         self.log("User %s doesn't share enough files, sent complaint.", user)
 
         # autoban the user if enabled in settings
         if self.settings['enable_autoban']:
             self.core.notifications.new_text_notification(
-                    ("User %(user)s tried leeching from you and got autobanned. Only shared %(files)s files and %(dirs)s folders.") % {
+                    ("User: %(user)s tried leeching from you and got autobanned. Only shared %(files)s files and %(dirs)s folders.") % {
                         'user': user,
                         'files': stats['files'],
                         'dirs': stats['dirs']
